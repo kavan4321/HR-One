@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:HR_One.ViewModel.ViewModelSignIn"
+             x:Class="HR_One.View.SignInScreen"
+             Title="HR-One">
+
+    <ContentPage.BindingContext>
+        <ViewModel:SignInViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <StackLayout
+            Padding="10,20">
+            <Label
+                Margin="0,30"
+                FontSize="28"
+                FontFamily="red-hands"
+                Text="Sign in"/>
+            <Label
+                Margin="0,20,0,0"
+                FontSize="15"
+                FontFamily="Roboto-Medium"
+                Text="Email"/>
+            <Entry
+                PlaceholderColor="Gray"
+                FontSize="15"
+                Text="{Binding Email}"
+                Placeholder="Enter your email address"/>
+            <Label
+                Margin="0,20,0,0"
+                FontSize="15"
+                FontFamily="Roboto-Medium"
+                Text="Password"/>
+            <Entry
+                PlaceholderColor="Gray"
+                FontSize="15"
+                Text="{Binding Password}"
+                Placeholder="Enter your Password"/>
+            
+            <StackLayout
+                Orientation="Horizontal"
+                Margin="5,15">
+                <CheckBox/>
+                <Label
+                    VerticalOptions="Center"
+                    Text="Remember Me"/>
+                <Label
+                    TextColor="Blue"
+                    VerticalOptions="Center"
+                    FontSize="12"
+                    HorizontalOptions="EndAndExpand"
+                    FontFamily="red-hands"
+                    Text="Forgot Password?"/>
+            </StackLayout>
+            <Button
+                Margin="0,20"
+                Text="Login"
+                FontSize="19"
+                Command="{Binding LoginCommand}"
+                FontFamily="Roboto-Regular"
+                CornerRadius="30"/>
+            <Label
+                HorizontalOptions="Center"
+                FontSize="16"
+                FontFamily="Roboto-Medium"
+                Text="Or Continue With"/>
+            <HorizontalStackLayout
+                Margin="0,20"
+                Spacing="20"
+                HorizontalOptions="Center">
+                <Image
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    Source="google"/>
+                <Image
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    Source="facebook"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                VerticalOptions="EndAndExpand"
+                Spacing="5">
+                <Label
+                    Text="Don't have an account?"/>
+                <Label
+                    TextColor="Blue"
+                    FontFamily="red-hands"
+                    FontSize="13"
+                    Text="Register Here">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="TapGestureRecognizerTapped"
+                            NumberOfTapsRequired="1"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:HR_One.ViewModel.ViewModelEmployeeDetail"
+             x:Class="HR_One.View.EmployeeDetailScreen"
+             Title="Employee Detail">
+    <ContentPage.BindingContext>
+        <ViewModel:EmployeeDetailViewModel/>
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        
+        <StackLayout
+            Padding="10"
+            Spacing="10">
+           
+            <Border
+                BackgroundColor="LightBlue"
+                Margin="0,30,0,0"
+                HeightRequest="100"
+                WidthRequest="100"
+                StrokeShape="RoundRectangle 100">
+                <Image
+                    Source="{Binding GenderImage}"/>
+            </Border>
+            <Label 
+                HorizontalOptions="Center"
+                TextColor="PaleVioletRed"
+                FontSize="18"
+                FontAttributes="Bold"
+                Text="{Binding EmployeeDetail.Name}"/>
+
+            <HorizontalStackLayout
+                Spacing="5"
+                HorizontalOptions="Center">
+                <Image
+                    HeightRequest="15"
+                    WidthRequest="15"
+                    Source="designation"/>
+                <Label
+                    Text="{Binding EmployeeDetail.Designation}"/>
+            </HorizontalStackLayout>
+           
+            <HorizontalStackLayout
+                Spacing="5"
+                HorizontalOptions="Center">
+                <Image
+                    HeightRequest="15"
+                    WidthRequest="15"
+                    Source="email"/>
+                <Label
+                    TextColor="Blue"
+                    Text="{Binding EmployeeDetail.Email}"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout
+                Spacing="5"
+                HorizontalOptions="Center">
+                <Image
+                    HeightRequest="15"
+                    WidthRequest="15"
+                    Source="phone"/>
+                <Label
+                    TextColor="Blue"
+                    Text="{Binding EmployeeDetail.PhoneNumber}"/>
+            </HorizontalStackLayout>
+
+            <Line
+                Margin="0,30"
+                HeightRequest="1"
+                BackgroundColor="Gray"/>
+
+            <Label
+                HorizontalOptions="Center"
+                Text="Projects"
+                FontSize="18"
+                TextColor="Coral"
+                FontAttributes="Bold"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

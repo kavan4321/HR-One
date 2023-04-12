@@ -12,10 +12,15 @@ public partial class ProjectScreen : ContentPage
 		_projectViewModel=(ProjectViewModel)BindingContext;
 		_=GetProjectListAsync();
         _projectViewModel.GetEventHandler += GetEventHandler;
+        _projectViewModel.SelectionEvent += SelectionEvent;
 	}
 
+    private void SelectionEvent(object sender, HttpModel.ProjectDetail e)
+    {
+		Navigation.PushAsync(new ProjectDetailScreen(_projectViewModel.ItemSelected));
+    }
 
-	private async Task GetProjectListAsync()
+    private async Task GetProjectListAsync()
 	{
 		await _projectViewModel.GetProjectListAsync();
 	}

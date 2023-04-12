@@ -76,6 +76,57 @@
                 FontSize="18"
                 TextColor="Coral"
                 FontAttributes="Bold"/>
+
+            <CarouselView
+                IndicatorView="indicatorview"
+                ItemsSource="{Binding EmployeeProjectDetails}">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            StrokeShape="RoundRectangle 15"
+                            Padding="15">
+                            <Grid
+                                RowDefinitions="Auto,*"
+                                RowSpacing="10">
+                                <Label
+                                    Grid.Row="0"
+                                    HorizontalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span
+                                                FontFamily="Roboto-Medium"
+                                                Text="Project Domain:"/>
+                                            <Span
+                                                Text=" "/>
+                                            <Span
+                                                FontFamily="Roboto-Medium"
+                                                TextColor="PaleVioletRed"
+                                                Text="{Binding ProjectDomain}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label
+                                    Grid.Row="1"
+                                    HorizontalTextAlignment="Center"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding Description}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <ActivityIndicator
+                IsVisible="{Binding IsLoading}"
+                IsRunning="{Binding IsLoading}"
+                HeightRequest="50"
+                HorizontalOptions="Center"/>
+            <IndicatorView
+                x:Name="indicatorview"
+                HorizontalOptions="Center"
+                SelectedIndicatorColor="Black"
+                IndicatorColor="Gray"
+                IndicatorSize="7"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

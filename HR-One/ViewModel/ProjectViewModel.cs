@@ -6,6 +6,7 @@ using HR_One.Table;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace HR_One.ViewModel.ViewModelProject
 {
@@ -15,13 +16,25 @@ namespace HR_One.ViewModel.ViewModelProject
         private GetProjectModel _getProjectModel;
 
         private ObservableCollection<ProjectDetail> _projectDetails;
+        private ProjectDetail _itemSelected;
         private bool _isLoading;
+       
+        
         public ObservableCollection<ProjectDetail> ProjectDetails
         {
             get => _projectDetails;
             set
             {
                 _projectDetails = value;
+                OnPropertyChanged();
+            }
+        }
+        public ProjectDetail ItemSelected
+        {
+            get=> _itemSelected; 
+            set
+            {
+                _itemSelected=value;
                 OnPropertyChanged();
             }
         }
@@ -35,13 +48,22 @@ namespace HR_One.ViewModel.ViewModelProject
             }
         }
      
+     
+        
         public event EventHandler<ErrorResult> GetEventHandler;
+        public event EventHandler<ProjectDetail> SelectionEvent;
+
+        public ICommand SelectionCommand { get;private set; }
         public ProjectViewModel()
         {
             _getProjectModel = new GetProjectModel();
+            SelectionCommand = new Command(SelectionChange);
         }
 
-
+        public void SelectionChange()
+        {
+            SelectionEvent?.Invoke(this, ItemSelected);
+        }
         public async Task GetProjectListAsync()
         {
             IsLoading=true;

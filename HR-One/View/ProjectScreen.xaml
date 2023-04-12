@@ -17,6 +17,10 @@
             HorizontalOptions="Center"/>
         <CollectionView
             Margin="10"
+            x:Name='ProjectCollection'
+            SelectionMode="Single"
+            SelectedItem="{Binding ItemSelected}"
+            SelectionChangedCommand="{Binding SelectionCommand}"
             ItemsSource="{Binding ProjectDetails}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout
@@ -26,8 +30,22 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border
+                        x:Name="BorderStyle"
                         Padding="10"
                         StrokeShape="RoundRectangle 10">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal"/>
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter
+                                        TargetName="BorderStyle"
+                                        Property="Border.BackgroundColor"
+                                        Value="White"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                         <StackLayout
                             Spacing="10">
                             <Label

@@ -6,6 +6,7 @@ using HR_One.Table;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace HR_One.ViewModel.ViewModelEmployeeDetail
 {
@@ -16,8 +17,9 @@ namespace HR_One.ViewModel.ViewModelEmployeeDetail
         
         private EmployeeDetail _employeeDetail;
         private string _genderImage;
-        private ObservableCollection<EmployeeProjectDetail> _employeeProjectDetails;
+        private ObservableCollection<ProjectDetail> _employeeProjectDetails;
         private bool _isLoading;
+        private ProjectDetail _selectedItem;
 
 
         public EmployeeDetail EmployeeDetail
@@ -38,7 +40,7 @@ namespace HR_One.ViewModel.ViewModelEmployeeDetail
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<EmployeeProjectDetail> EmployeeProjectDetails
+        public ObservableCollection<ProjectDetail> EmployeeProjectDetails
         {
             get => _employeeProjectDetails;
             set
@@ -56,10 +58,22 @@ namespace HR_One.ViewModel.ViewModelEmployeeDetail
                 OnPropertyChanged();
             }
         }
-
+        public ProjectDetail SelectedItem
+        {
+            get=> _selectedItem;
+            set
+            {
+                _selectedItem=value;
+                OnPropertyChanged();
+            }
+        }
 
 
         public event EventHandler<ErrorResult> GetEmployeeProjectEvent;
+        public event EventHandler<ProjectDetail> SelectionEvent;
+        public ICommand SelectionCommand { get;private set; }
+        
+        
         public EmployeeDetailViewModel()
         {
             _employeeProjectModel = new GetEmployeeProjectModel();
@@ -75,7 +89,6 @@ namespace HR_One.ViewModel.ViewModelEmployeeDetail
                 GenderImage = "female_employee";
             }
         }
-    
         
 
         public async Task GetEmployeeProjectListAsync()

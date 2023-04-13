@@ -79,12 +79,19 @@
 
             <CarouselView
                 IndicatorView="indicatorview"
-                ItemsSource="{Binding EmployeeProjectDetails}">
+                CurrentItem="{Binding SelectedItem}"
+                ItemsSource="{Binding EmployeeProjectDetails}"
+                >
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <Border
                             StrokeShape="RoundRectangle 15"
                             Padding="15">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Tapped="TapGestureRecognizerTapped"
+                                    NumberOfTapsRequired="1"/>
+                            </Border.GestureRecognizers>
                             <Grid
                                 RowDefinitions="Auto,*"
                                 RowSpacing="10">

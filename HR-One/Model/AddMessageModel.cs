@@ -7,31 +7,37 @@ using Plugin.Connectivity;
 
 namespace HR_One.Model
 {
-    public class GetEmployeeProjectModel
+    public class AddMessageModel
     {
-        private GetEmployeeProjectEndPoint _getEmployeeProjectEndPoint;
-        public int Id { get; set; }
-        public List<ProjectDetail> EmployeeProjectDetails { get; set; }
+        private AddMessageEndPoint _addMessageEndPoint;
+        public string Title { get; set; }
+        public string Body { get; set; }
 
-        public GetEmployeeProjectModel()
+        public AddMessageModel()
         {
-            _getEmployeeProjectEndPoint = new GetEmployeeProjectEndPoint();
+            _addMessageEndPoint = new AddMessageEndPoint();
         }
 
-        public async Task<ErrorResult> GetEmployeeProjectDetailsAsync()
+        public async Task<ErrorResult> AddMessageAsync()
         {
             if (CrossConnectivity.Current.IsConnected)
             {
-                _getEmployeeProjectEndPoint.Id = Id;
-                var responce = await _getEmployeeProjectEndPoint.ExecuteAsync();
+                var reqestModel = new AddMessageRequestModel()
+                {
+                    Title= Title,
+                    Body = Body
+                };
+                _addMessageEndPoint.AddMessageRequestModel= reqestModel;
+                var responce = await _addMessageEndPoint.ExecuteAsync();
+               
                 if (responce.IsSuccessStatusCode)
                 {
                     var data = await responce.Content.ReadAsStringAsync();
-                    var employeeProject = JsonConvert.DeserializeObject<ProjectResponceModel>(data);
-                    EmployeeProjectDetails = employeeProject.ProjectDetails;
+                    var addMessage = JsonConvert.DeserializeObject<EmployeeMessageResponceModel>(data);
                     return new ErrorResult()
                     {
                         IsSuccess = true,
+                        Message = addMessage.Msg
                     };
                 }
                 else
@@ -53,6 +59,5 @@ namespace HR_One.Model
                 };
             }
         }
-
     }
 }

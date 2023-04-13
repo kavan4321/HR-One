@@ -28,4 +28,9 @@ public partial class EmployeeDetailScreen : ContentPage
 			Toast.Make(e.Message, CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
 		}
     }
+
+    private void TapGestureRecognizerTapped(object sender, TappedEventArgs e)
+    {
+		Navigation.PushAsync(new ProjectDetailScreen(_employeeDetailViewModel.SelectedItem));
+    }
 }

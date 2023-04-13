@@ -34,8 +34,12 @@ namespace HR_One.ViewModel.ViewModelSignIn
             }
         }
 
+
+
         public event EventHandler LoginEvent;
         public ICommand LoginCommand { get; private set; }
+      
+        
         public SignInViewModel()
         {
             _database = new SignInDatabase();
@@ -45,12 +49,16 @@ namespace HR_One.ViewModel.ViewModelSignIn
             LoginCommand = new Command(Validation);
         }
 
+
+
         public void Validation()
         {
+            _ = _database.GetRegisterListAsync();
+            
             string emailPattern = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
                                   @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
                                   @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
-
+            
             if (string.IsNullOrWhiteSpace(Email) &&
                 string.IsNullOrWhiteSpace(Password))
             {

@@ -2,36 +2,50 @@
 using HR_One.EndPoint;
 using HR_One.HttpModel;
 using HR_One.Table;
+using HR_One.ViewModel.ViewModelEdit;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 
 namespace HR_One.Model
 {
-    public class GetEmployeeProjectModel
+    public class EditMessageModel
     {
-        private GetEmployeeProjectEndPoint _getEmployeeProjectEndPoint;
+        private EditMessageEndPoint _editMessageEndPoint;
+        
         public int Id { get; set; }
-        public List<ProjectDetail> EmployeeProjectDetails { get; set; }
+        public int ProjectId { get; set; }
+        public string Title { get; set; }
+        public string Body { get; set; }
+        public int MessageStutus { get; set; }
 
-        public GetEmployeeProjectModel()
+        public EditMessageModel()
         {
-            _getEmployeeProjectEndPoint = new GetEmployeeProjectEndPoint();
+            _editMessageEndPoint = new EditMessageEndPoint();
         }
 
-        public async Task<ErrorResult> GetEmployeeProjectDetailsAsync()
+        public async Task<ErrorResult> EditMessageAsync()
         {
+           
             if (CrossConnectivity.Current.IsConnected)
             {
-                _getEmployeeProjectEndPoint.Id = Id;
-                var responce = await _getEmployeeProjectEndPoint.ExecuteAsync();
+                var reqestModel = new AddMessageRequestModel()
+                {
+                    ProjectId = ProjectId,
+                    Title = Title,
+                    Body = Body,
+                    MessageStatus = MessageStutus
+                };
+                _editMessageEndPoint.Id = Id;
+                _editMessageEndPoint.EditMessageRequsetModel = reqestModel;
+                var responce = await _editMessageEndPoint.ExecuteAsync();
+
                 if (responce.IsSuccessStatusCode)
                 {
                     var data = await responce.Content.ReadAsStringAsync();
-                    var employeeProject = JsonConvert.DeserializeObject<ProjectResponceModel>(data);
-                    EmployeeProjectDetails = employeeProject.ProjectDetails;
                     return new ErrorResult()
                     {
                         IsSuccess = true,
+                        Message = "Data Update Success"
                     };
                 }
                 else
@@ -53,6 +67,5 @@ namespace HR_One.Model
                 };
             }
         }
-
     }
 }

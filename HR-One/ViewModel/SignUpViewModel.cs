@@ -119,7 +119,7 @@ namespace HR_One.ViewModel.ViewModelSignUp
             }
             else
             {
-                _ = InsertData();
+                _ = InsertData();               
                 Toast.Make("User registered successfully", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
                 Email = string.Empty;
                 UserName = string.Empty;
@@ -127,7 +127,6 @@ namespace HR_One.ViewModel.ViewModelSignUp
                 ConfirmPassword = string.Empty;
                 RegisterEvent?.Invoke(this, new EventArgs());
             }
-
         }
 
 

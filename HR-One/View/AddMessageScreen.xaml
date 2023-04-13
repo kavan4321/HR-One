@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:HR_One.ViewModel.ViewModelAdd"
+             x:Class="HR_One.View.AddMessageScreen"
+             BackgroundColor="LightGray"
+             Title="Message">
+
+    <ContentPage.BindingContext>
+        <ViewModel:AddMessageViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <StackLayout
+            Padding="10"
+            VerticalOptions="Center">
+            <Border
+                Padding="15"
+                StrokeShape="RoundRectangle 15">
+                <StackLayout>
+                    <Entry
+                        Text="{Binding Title}"
+                        Placeholder="Title"/>
+                    <Editor
+                        Text="{Binding Body}"
+                        AutoSize="TextChanges"
+                        MaximumHeightRequest="100"
+                        Placeholder="Body"/>
+                    <Button
+                        Command="{Binding AddCommand}"
+                        Margin="0,20,0,0"
+                        CornerRadius="30"
+                        BackgroundColor="DarkCyan"
+                        Text="Add"
+                        FontFamily="Roboto-Medium"/>
+                </StackLayout>
+            </Border>
+    </StackLayout>
+    </ScrollView>
+</ContentPage>

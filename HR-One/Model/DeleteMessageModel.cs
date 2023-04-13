@@ -7,31 +7,32 @@ using Plugin.Connectivity;
 
 namespace HR_One.Model
 {
-    public class GetEmployeeProjectModel
+    public class DeleteMessageModel
     {
-        private GetEmployeeProjectEndPoint _getEmployeeProjectEndPoint;
-        public int Id { get; set; }
-        public List<ProjectDetail> EmployeeProjectDetails { get; set; }
+        private DeleteMessageEndPoint _deleteMessageEndPoint;
 
-        public GetEmployeeProjectModel()
+        public int Id { get;set; }
+        public DeleteMessageModel()
         {
-            _getEmployeeProjectEndPoint = new GetEmployeeProjectEndPoint();
+            _deleteMessageEndPoint = new DeleteMessageEndPoint();
         }
 
-        public async Task<ErrorResult> GetEmployeeProjectDetailsAsync()
+        public async Task<ErrorResult> DeleteMessageAsync()
         {
             if (CrossConnectivity.Current.IsConnected)
             {
-                _getEmployeeProjectEndPoint.Id = Id;
-                var responce = await _getEmployeeProjectEndPoint.ExecuteAsync();
+
+                _deleteMessageEndPoint.Id = Id;
+                var responce = await _deleteMessageEndPoint.ExecuteAsync();
+
                 if (responce.IsSuccessStatusCode)
                 {
                     var data = await responce.Content.ReadAsStringAsync();
-                    var employeeProject = JsonConvert.DeserializeObject<ProjectResponceModel>(data);
-                    EmployeeProjectDetails = employeeProject.ProjectDetails;
+                    var deleteMessage = JsonConvert.DeserializeObject<EmployeeMessageResponceModel>(data);
                     return new ErrorResult()
                     {
                         IsSuccess = true,
+                        Message = deleteMessage.Msg
                     };
                 }
                 else
@@ -53,6 +54,5 @@ namespace HR_One.Model
                 };
             }
         }
-
     }
 }

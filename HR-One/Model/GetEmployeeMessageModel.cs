@@ -7,28 +7,30 @@ using Plugin.Connectivity;
 
 namespace HR_One.Model
 {
-    public class GetEmployeeProjectModel
+    public class GetEmployeeMessageModel
     {
-        private GetEmployeeProjectEndPoint _getEmployeeProjectEndPoint;
-        public int Id { get; set; }
-        public List<ProjectDetail> EmployeeProjectDetails { get; set; }
+        private GetEmployeeMessageEndPoint _getEmployeeMessageEndPoint;
 
-        public GetEmployeeProjectModel()
+        public int Id { get; set; }
+      
+        public List<MessageDetail> MessageDetails { get; set; }
+        public GetEmployeeMessageModel()
         {
-            _getEmployeeProjectEndPoint = new GetEmployeeProjectEndPoint();
+            _getEmployeeMessageEndPoint = new GetEmployeeMessageEndPoint();
         }
 
-        public async Task<ErrorResult> GetEmployeeProjectDetailsAsync()
+
+        public async Task<ErrorResult> GetEmployeeMessageDetailsAsync()
         {
             if (CrossConnectivity.Current.IsConnected)
             {
-                _getEmployeeProjectEndPoint.Id = Id;
-                var responce = await _getEmployeeProjectEndPoint.ExecuteAsync();
+                _getEmployeeMessageEndPoint.Id = Id;
+                var responce = await _getEmployeeMessageEndPoint.ExecuteAsync();
                 if (responce.IsSuccessStatusCode)
                 {
                     var data = await responce.Content.ReadAsStringAsync();
-                    var employeeProject = JsonConvert.DeserializeObject<ProjectResponceModel>(data);
-                    EmployeeProjectDetails = employeeProject.ProjectDetails;
+                    var message = JsonConvert.DeserializeObject<EmployeeMessageResponceModel>(data);
+                    MessageDetails = message.MessageDetails;
                     return new ErrorResult()
                     {
                         IsSuccess = true,
@@ -53,6 +55,5 @@ namespace HR_One.Model
                 };
             }
         }
-
     }
 }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:HR_One.ViewModel.ViewModelSignIn"
              x:Class="HR_One.View.SignInScreen"
+             NavigationPage.HasBackButton="False"
              Title="HR-One">
 
     <ContentPage.BindingContext>

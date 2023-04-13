@@ -15,6 +15,7 @@ public partial class SignInScreen : ContentPage
     private void LoginEvent(object sender, EventArgs e)
     {
         Navigation.PushAsync(new DashbordScreen());      
+       
         var firstPage = Navigation.NavigationStack.ElementAtOrDefault(0);
         if (firstPage != null)
         {

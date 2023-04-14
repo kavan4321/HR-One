@@ -11,6 +11,8 @@ namespace HR_One.Database
         public string UserName { get; set; }
         public string Password { get; set; }
         public List<SignInTable> SignInDetails { get; set; }
+       
+        
         public void CreateDatabase()
         {
             var databaseName = "SignInDetails";
@@ -19,10 +21,13 @@ namespace HR_One.Database
             _connection=new SQLiteAsyncConnection(databasePath,true);
         }
 
+
         public async Task CreateTableAsync()
         {
             await _connection.CreateTableAsync<SignInTable>();
         }
+
+
         public async Task<List<SignInTable>> GetRegisterListAsync()
         {
             var list=await _connection.Table<SignInTable>().ToListAsync();
@@ -50,6 +55,38 @@ namespace HR_One.Database
                 Console.WriteLine(ex.Message);
             }
             return false;
+        }
+
+
+
+        public async Task<ErrorResult> GetUserData()
+        {
+            try
+            {
+                var data = await _connection.Table<SignInTable>().ToListAsync();
+                var userlist = data.Where(x => x.Email == Email && x.Password == Password).FirstOrDefault();
+                if (userlist != null)
+                {
+                    return new ErrorResult()
+                    {
+                        IsSuccess=true,
+                        Message = "Welcome " + userlist.UserName
+                    };
+                }
+                else
+                {
+                    return new ErrorResult()
+                    {
+                        IsSuccess = false,
+                        Message = "Invalid username/password"
+                    };
+                }
+
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 }

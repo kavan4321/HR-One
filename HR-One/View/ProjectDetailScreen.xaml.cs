@@ -14,14 +14,19 @@ public partial class ProjectDetailScreen : ContentPage
 		_projectDetailViewModel=(ProjectDetailViewModel)BindingContext;
 		_projectDetailViewModel.ProjectDetail = projectDetail;
 		_ = GetMessageListAsync();
-        _projectDetailViewModel.GetMessageEvent += GetMessageEvent;
-        _projectDetailViewModel.EditEvent += EditEvent;
-        _projectDetailViewModel.ShowAlertEvent += ShowAlertEventAsync;
-        _projectDetailViewModel.DeleteMessageEvent += DeleteMessageEvent;
+        EventBinding();
 
 	}
 
-    private async void ShowAlertEventAsync(object sender, EventArgs e)
+    private void EventBinding()
+    {
+        _projectDetailViewModel.GetMessageEvent += GetMessageEvent;
+        _projectDetailViewModel.EditEvent += EditEvent;
+        _projectDetailViewModel.ShowAlertEvent += ShowAlertEvent; ;
+        _projectDetailViewModel.DeleteMessageEvent += DeleteMessageEvent;
+    }
+
+    private async void ShowAlertEvent(object sender, MessageDetail e)
     {
         bool result = await DisplayAlert("Delete Message", "Are you sure you want to delete this message? ", "Yes", "No");
 
@@ -29,6 +34,11 @@ public partial class ProjectDetailScreen : ContentPage
         {
             _ = _projectDetailViewModel.DeleteMessageAsync();
         }
+    }
+
+    private async Task GetMessageListAsync()
+    {
+        await _projectDetailViewModel.GetMessageListAsync();
     }
 
     private void DeleteMessageEvent(object sender, Table.ErrorResult e)
@@ -48,10 +58,7 @@ public partial class ProjectDetailScreen : ContentPage
 		Navigation.PushAsync(new EditMessageScreen(e));
     }
 
-    private async Task GetMessageListAsync()
-	{
-		await _projectDetailViewModel.GetMessageListAsync();
-	}
+ 
 
     private void GetMessageEvent(object sender, Table.ErrorResult e)
     {
@@ -60,6 +67,7 @@ public partial class ProjectDetailScreen : ContentPage
 			Toast.Make(e.Message, CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
 		}
     }
+
 
     private void NewMessageClicked(object sender, EventArgs e)
     {

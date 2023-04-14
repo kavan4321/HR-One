@@ -36,6 +36,7 @@
                 PlaceholderColor="Gray"
                 FontSize="15"
                 Text="{Binding Password}"
+                IsPassword="True"
                 Placeholder="Enter your Password"/>
             
             <StackLayout

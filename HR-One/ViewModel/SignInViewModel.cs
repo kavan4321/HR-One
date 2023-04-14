@@ -1,6 +1,7 @@
 ﻿
 using CommunityToolkit.Maui.Alerts;
 using HR_One.Database;
+using HR_One.Table;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -36,7 +37,7 @@ namespace HR_One.ViewModel.ViewModelSignIn
 
 
 
-        public event EventHandler LoginEvent;
+        public event EventHandler<ErrorResult> LoginEvent;
         public ICommand LoginCommand { get; private set; }
       
         
@@ -51,10 +52,8 @@ namespace HR_One.ViewModel.ViewModelSignIn
 
 
 
-        public void Validation()
-        {
-            _ = _database.GetRegisterListAsync();
-            
+        public async void Validation()
+        {        
             string emailPattern = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
                                   @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
                                   @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
@@ -62,37 +61,30 @@ namespace HR_One.ViewModel.ViewModelSignIn
             if (string.IsNullOrWhiteSpace(Email) &&
                 string.IsNullOrWhiteSpace(Password))
             {
-                Toast.Make("Please enter values", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Please enter values", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (string.IsNullOrWhiteSpace(Email))
             {
-                Toast.Make("Please enter email", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Please enter email", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (!Regex.IsMatch(Email, emailPattern))
             {
-                Toast.Make("Enter email is not valid", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Enter email is not valid", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (string.IsNullOrWhiteSpace(Password))
             {
-                Toast.Make("Please enter password", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _=Toast.Make("Please enter password", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (Password.Length < 6)
             {
-                Toast.Make("Enter password is small", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _=Toast.Make("Enter password is small", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else
             {
-                var databaseData = _database.SignInDetails.Where(x => x.Email == Email && x.Password == Password).ToList();                
-                if (databaseData.Count>0) 
-                {
-                    var userName = databaseData.FirstOrDefault().UserName;
-                    Toast.Make("Welcome " + userName, CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
-                    LoginEvent?.Invoke(this, new EventArgs());
-                }
-                else
-                {
-                    Toast.Make("Invalid username/password", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();               
-                }
+                _database.Email=Email;
+                _database.Password=Password;
+                var result =await  _database.GetUserData();
+                LoginEvent?.Invoke(this,result);
             }
         }
 

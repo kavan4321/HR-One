@@ -41,6 +41,7 @@
                 PlaceholderColor="Gray"
                 FontSize="15"
                 Text="{Binding Password}"
+                IsPassword="True"
                 Placeholder="Enter your Password"/>
             <Label
                 Margin="0,10,0,0"
@@ -49,6 +50,7 @@
             <Entry
                 PlaceholderColor="Gray"
                 FontSize="15"
+                IsPassword="True"
                 Text="{Binding ConfirmPassword}"
                 Placeholder="Enter your Confirm Password"/>
             <Button

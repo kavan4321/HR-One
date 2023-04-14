@@ -50,7 +50,13 @@
                     Source="email"/>
                 <Label
                     TextColor="Blue"
-                    Text="{Binding EmployeeDetail.Email}"/>
+                    Text="{Binding EmployeeDetail.Email}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="EmailTapped"
+                            NumberOfTapsRequired="1"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </HorizontalStackLayout>
 
             <HorizontalStackLayout
@@ -62,7 +68,12 @@
                     Source="phone"/>
                 <Label
                     TextColor="Blue"
-                    Text="{Binding EmployeeDetail.PhoneNumber}"/>
+                    Text="{Binding EmployeeDetail.PhoneNumber}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="PhoneNumberTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </HorizontalStackLayout>
 
             <Line

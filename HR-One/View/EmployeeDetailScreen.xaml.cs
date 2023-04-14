@@ -33,4 +33,29 @@ public partial class EmployeeDetailScreen : ContentPage
     {
 		Navigation.PushAsync(new ProjectDetailScreen(_employeeDetailViewModel.SelectedItem));
     }
+
+    private async void EmailTapped(object sender, TappedEventArgs e)
+    {
+		if (Email.Default.IsComposeSupported)
+		{
+
+			string[] recipients = new[] { _employeeDetailViewModel.EmployeeDetail.Email };
+
+            var message = new EmailMessage
+			{
+				Subject = _employeeDetailViewModel.EmployeeDetail.Designation,
+				Body = _employeeDetailViewModel.EmployeeDetail.CompleteAddress,
+				To= new List<string> { recipients[0] }
+			};
+			await Email.Default.ComposeAsync(message);
+		}
+    }
+
+    private void PhoneNumberTapped(object sender, TappedEventArgs e)
+    {
+		if (PhoneDialer.Default.IsSupported)
+		{
+			PhoneDialer.Default.Open(_employeeDetailViewModel.EmployeeDetail.PhoneNumber);
+		}
+    }
 }

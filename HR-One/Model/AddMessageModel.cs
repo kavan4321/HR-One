@@ -33,7 +33,7 @@ namespace HR_One.Model
                 if (responce.IsSuccessStatusCode)
                 {
                     var data = await responce.Content.ReadAsStringAsync();
-                    var addMessage = JsonConvert.DeserializeObject<EmployeeMessageResponceModel>(data);
+                    var addMessage = JsonConvert.DeserializeObject<EditMessageResponceModel>(data);
                     return new ErrorResult()
                     {
                         IsSuccess = true,

@@ -1,3 +1,5 @@
+
+using CommunityToolkit.Maui.Alerts;
 using HR_One.ViewModel.ViewModelSignIn;
 
 namespace HR_One.View;
@@ -12,16 +14,24 @@ public partial class SignInScreen : ContentPage
         _signInViewModel.LoginEvent += LoginEvent;
 	}
 
-    private void LoginEvent(object sender, EventArgs e)
+    private void LoginEvent(object sender, Table.ErrorResult e)
     {
-        Navigation.PushAsync(new DashbordScreen());      
-       
-        var firstPage = Navigation.NavigationStack.ElementAtOrDefault(0);
-        if (firstPage != null)
+        if (e.IsSuccess)
+        {           
+            Toast.Make(e.Message, CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+            Navigation.PushAsync(new DashbordScreen());
+            var firstPage = Navigation.NavigationStack.ElementAtOrDefault(0);
+            if (firstPage != null)
+            {
+                Navigation.RemovePage(firstPage);
+            }
+        }
+        else
         {
-            Navigation.RemovePage(firstPage);
+            Toast.Make(e.Message, CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
         }
     }
+
 
     private void TapGestureRecognizerTapped(object sender, TappedEventArgs e)
     {

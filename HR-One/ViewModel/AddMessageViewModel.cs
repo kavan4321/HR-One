@@ -1,4 +1,5 @@
 ﻿
+using CommunityToolkit.Maui.Alerts;
 using HR_One.Model;
 using HR_One.Table;
 using System.ComponentModel;
@@ -36,18 +37,40 @@ namespace HR_One.ViewModel.ViewModelAdd
         public event EventHandler<ErrorResult> AddEvent;
         public ICommand AddCommand { get;private set; }
 
+
+
+
         public AddMessageViewModel()
         {
             _addMessageModel= new AddMessageModel();
             AddCommand = new Command(() => { _ = AddDetailsAsync();}) ;
         }
-
+        
         public async Task AddDetailsAsync()
         {
-            _addMessageModel.Title= Title;
-            _addMessageModel.Body= Body;
-            var result =await _addMessageModel.AddMessageAsync();
-            AddEvent?.Invoke(this, result);
+
+            if (string.IsNullOrWhiteSpace(Title) &&
+                string.IsNullOrWhiteSpace(Body) )
+            {
+                _=Toast.Make("Please enter values", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+            }
+            else if(string.IsNullOrWhiteSpace(Title))
+            {
+                _ = Toast.Make("Please enter title", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+            }
+            else if (string.IsNullOrWhiteSpace(Body))
+            {
+                _ = Toast.Make("Please enter body", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+            }
+            else
+            {
+                _addMessageModel.Title = Title;
+                _addMessageModel.Body = Body;
+                var result = await _addMessageModel.AddMessageAsync();
+                Title = string.Empty;
+                Body=string.Empty;
+                AddEvent?.Invoke(this, result);
+            }           
         }
 
 

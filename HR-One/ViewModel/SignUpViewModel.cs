@@ -79,48 +79,51 @@ namespace HR_One.ViewModel.ViewModelSignUp
                 string.IsNullOrWhiteSpace(ConfirmPassword)
                 )
             {
-                Toast.Make("Please enter values", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Please enter values", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (string.IsNullOrWhiteSpace(Email))
             {
-                Toast.Make("Please enter email", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Please enter email", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (!Regex.IsMatch(Email, emailPattern))
             {
-                Toast.Make("Please enter valid email", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Please enter valid email", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (string.IsNullOrWhiteSpace(UserName))
             {
-                Toast.Make("Please enter username", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Please enter username", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (UserName.Length < 4)
             {
-                Toast.Make("Enter username is too short", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Enter username is too short", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (string.IsNullOrWhiteSpace(Password))
             {
-                Toast.Make("Please enter password", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Please enter password", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (Password.Length < 6)
             {
-                Toast.Make("Enter password is too small", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Enter password is too small", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (string.IsNullOrWhiteSpace(ConfirmPassword))
             {
-                Toast.Make("Please enter confirm password", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Please enter confirm password", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (!Password.Equals(ConfirmPassword))
             {
-                Toast.Make("Password & confirm password not match", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _ = Toast.Make("Password & confirm password not match", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else if (_database.SignInDetails.Where(x =>x.Email == Email).Count()>0)
             {
-                Toast.Make("This email is already registered", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _=Toast.Make("This email is already registered", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
             }
             else
             {
-                _ = InsertData();               
-                Toast.Make("User registered successfully", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
+                _database.Email = Email;
+                _database.UserName = UserName;
+                _database.Password = Password;
+                _=_database.InsertAsync();
+                _=Toast.Make("User registered successfully", CommunityToolkit.Maui.Core.ToastDuration.Short).Show();
                 Email = string.Empty;
                 UserName = string.Empty;
                 Password = string.Empty;
@@ -128,16 +131,6 @@ namespace HR_One.ViewModel.ViewModelSignUp
                 RegisterEvent?.Invoke(this, new EventArgs());
             }
         }
-
-
-        public async Task InsertData()
-        {
-            _database.Email=Email;
-            _database.UserName=UserName;
-            _database.Password=Password;
-            await _database.InsertAsync();
-        }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string name = "")

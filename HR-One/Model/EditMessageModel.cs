@@ -42,10 +42,11 @@ namespace HR_One.Model
                 if (responce.IsSuccessStatusCode)
                 {
                     var data = await responce.Content.ReadAsStringAsync();
+                    var editdata = JsonConvert.DeserializeObject<EditMessageResponceModel>(data);
                     return new ErrorResult()
                     {
                         IsSuccess = true,
-                        Message = "Data Update Success"
+                        Message = editdata.Msg
                     };
                 }
                 else

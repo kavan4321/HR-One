@@ -16,6 +16,8 @@ namespace HR_One.ViewModel.ViewModelEmployee
         private ObservableCollection<EmployeeDetail> _employeeDetails;
         private EmployeeDetail _itemSelected;
         private bool _isLoading; 
+       
+        
         public ObservableCollection<EmployeeDetail> EmployeeDetails
         {
             get=>_employeeDetails;
@@ -47,6 +49,7 @@ namespace HR_One.ViewModel.ViewModelEmployee
         
         public event EventHandler<ErrorResult> GetEventHandler; 
         public event EventHandler<EmployeeDetail> SelectionEvent;
+      
         public ICommand SelectionCommand { get;private set; }
        
         public EmployeeViewModel()
